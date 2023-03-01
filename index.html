@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .card {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.card h2 {
+  font-size: 24px;
+  margin-bottom: 5px;
+}
+
+.card p {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.card a {
+  font-size: 16px;
+  color: #0077cc;
+  text-decoration: none;
+}
+
+@media (min-width: 768px) {
+  .card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .card h2 {
+    font-size: 32px;
+    margin-bottom: 10px;
+  }
+
+  .card p {
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+}
+
+</style>
+<body>
+
+     <div class="container" id="container"></div>
+
+
+    <script>
+    fetch('https://www.reddit.com/r/reactjs.json')
+  .then(response => response.json())
+  .then(data => {
+    const children = data.data.children;
+    const container = document.getElementById('container');
+
+    children.forEach(child => {
+      const title = child.data.title;
+      const selfText = child.data.selftext_html;
+      const url = child.data.url;
+      const score = child.data.score;
+
+      const card = document.createElement('div');
+      card.classList.add('card');
+
+      const titleEl = document.createElement('h2');
+      titleEl.innerHTML = title;
+      card.appendChild(titleEl);
+
+      const selfTextEl = document.createElement('p');
+      selfTextEl.innerHTML = selfText;
+      card.appendChild(selfTextEl);
+
+      const urlEl = document.createElement('a');
+      urlEl.href = url;
+      urlEl.innerHTML = 'Read more';
+      card.appendChild(urlEl);
+
+      const scoreEl = document.createElement('p');
+      scoreEl.innerHTML = `Score: ${score}`;
+      card.appendChild(scoreEl);
+
+      container.appendChild(card);
+    });
+  })
+  .catch(error => console.log(error));
+
+</script>
+</body>
+
+</html>
